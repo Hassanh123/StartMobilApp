@@ -4,6 +4,7 @@ import HomePage from '@/components/HomePage.vue'
 import AutoDetailsPage from '@/components/AutoDetails.vue'
 import OverOnsPage from '@/components/OverOns.vue'
 import LoginPage from '@/components/LoginPage.vue'
+import RegisterPage from '@/components/RegisterPage.vue'
 
 
 const routes = [
@@ -26,6 +27,11 @@ const routes = [
     name: 'Login', // Zorg ervoor dat de naam hier overeenkomt
     path: '/Login',
     component: LoginPage,
+  },
+  {
+    name: 'register', // Zorg ervoor dat de naam hier overeenkomt
+    path: '/register',
+    component: RegisterPage,
   },
 ]
 
