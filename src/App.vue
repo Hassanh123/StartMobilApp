@@ -1,16 +1,23 @@
 <template>
   <div id="app" class="min-h-screen bg-gray-100 flex flex-col">
-    <!-- Header -->
-    <header class="bg-indigo-900 shadow-md py-5">
-      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8 text-center sm:text-left">
-        <img
-          src="@/assets/StartMobil.png"
-          alt="StartMobil Logo"
-          class="h-14 w-auto"
-        />
-        <h1 class="text-white text-2xl sm:text-3xl font-extrabold select-none">StartMobil</h1>
-      </div>
-    </header>
+<!-- Header -->
+<header class="bg-indigo-900 shadow-lg py-6">
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-8 px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center gap-4 sm:gap-6">
+      <img
+        src="@/assets/StartMobil.png"
+        alt="StartMobil Logo"
+        class="h-20 w-auto drop-shadow-lg"
+      />
+      <h1 class="text-white text-3xl sm:text-4xl font-black tracking-wide select-none">
+        Start<span class="text-indigo-200">Mobil</span>
+      </h1>
+    </div>
+    <p class="hidden sm:block text-indigo-200 text-sm sm:text-base italic">
+      Smart, simple & sustainable car rental
+    </p>
+  </div>
+</header>
 
     <!-- Navigatie -->
     <nav class="bg-indigo-800 border-b-4 border-yellow-500">
