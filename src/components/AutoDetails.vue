@@ -2,21 +2,14 @@
   <div class="p-5">
     <h1 class="text-3xl font-bold mb-6 text-center">Auto Details</h1>
 
-    <!-- Dropdown filter -->
+    <!-- Zoekveld -->
     <div class="mb-6 flex justify-center">
-      <select
-        v-model="gekozenMerk"
-        class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-      >
-        <option value="">Alle merken</option>
-        <option
-          v-for="merk in uniekeMerken"
-          :key="merk"
-          :value="merk"
-        >
-          {{ merk }}
-        </option>
-      </select>
+      <input
+        type="text"
+        v-model="zoekterm"
+        placeholder="Zoek op merk of model..."
+        class="border border-gray-300 rounded-md px-4 py-2 w-full max-w-xs focus:outline-none focus:ring-2 focus:ring-green-500"
+      />
     </div>
 
     <div v-if="gefilterdeAutos.length === 0" class="text-center text-gray-500">
@@ -72,22 +65,20 @@ export default {
   data() {
     return {
       autos: [],
-      gekozenMerk: '', // Houdt het geselecteerde merk bij
+      zoekterm: '',  // zoekterm voor filter
       error: null,
     };
   },
   computed: {
-    // Unieke merken uit autos ophalen
-    uniekeMerken() {
-      const merken = this.autos.map(auto => auto.merk);
-      return [...new Set(merken)].sort();
-    },
-    // Autos filteren op gekozen merk
     gefilterdeAutos() {
-      if (!this.gekozenMerk) {
+      if (!this.zoekterm) {
         return this.autos;
       }
-      return this.autos.filter(auto => auto.merk === this.gekozenMerk);
+      const term = this.zoekterm.toLowerCase();
+      return this.autos.filter(auto =>
+        (auto.merk && auto.merk.toLowerCase().includes(term)) ||
+        (auto.model && auto.model.toLowerCase().includes(term))
+      );
     },
   },
   mounted() {
