@@ -1,59 +1,68 @@
 <template>
-  <div class="p-5">
-    <h1 class="text-3xl font-bold mb-6 text-center">Auto Details</h1>
+  <div class="bg-white max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8 rounded-lg shadow-sm scroll-auto">
+    <h1 class="text-3xl font-bold mb-8 text-center text-gray-800">Auto Details</h1>
 
-    <!-- Zoekveld -->
-    <div class="mb-6 flex justify-center">
-      <input
-        type="text"
-        v-model="zoekterm"
-        placeholder="Zoek op merk of model..."
-        class="border border-gray-300 rounded-md px-4 py-2 w-full max-w-xs focus:outline-none focus:ring-2 focus:ring-green-500"
-      />
-    </div>
+<!-- Zoekbalk -->
+<div class="mb-6 flex justify-center">
+  <input
+    v-model="zoekterm"
+    type="text"
+    placeholder="Zoek op merk of model..."
+    class="w-full max-w-xs sm:max-w-sm md:max-w-md px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition duration-150"
+    aria-label="Zoek op merk of model"
+  />
+</div>
 
-    <div v-if="gefilterdeAutos.length === 0" class="text-center text-gray-500">
+    <section v-if="gefilterdeAutos.length === 0" class="text-center text-gray-500" aria-label="Geen auto's">
       <p>Geen auto's gevonden.</p>
-    </div>
+    </section>
 
-    <div v-else class="flex flex-wrap justify-center gap-6">
-      <div
+    <section
+      v-else
+      class="flex flex-wrap justify-center gap-6"
+      aria-label="Lijst van beschikbare auto's"
+    >
+      <article
         v-for="auto in gefilterdeAutos"
         :key="auto.id"
-        class="border border-gray-300 rounded-lg p-4 w-full sm:w-72 shadow hover:shadow-lg transition-shadow"
+        class="border border-gray-200 rounded-lg p-4 w-full sm:w-72 bg-gray-50 hover:bg-white transition-all duration-200 shadow hover:shadow-md"
+        :aria-label="`Details van ${auto.merk} ${auto.model}`"
       >
-        <h2 class="text-xl font-semibold mb-3">
+        <h3 class="text-xl font-semibold mb-3 text-gray-700">
           {{ auto.merk }} {{ auto.model }} ({{ auto.bouwjaar }})
-        </h2>
+        </h3>
 
         <img
           v-if="auto.foto"
-          :src="require(`@/assets/${auto.foto}`)"
-          :alt="`Foto van ${auto.merk} ${auto.model}`"
+          :src="`/images/${auto.foto}`"
+          :alt="`Foto van ${auto.merk} ${auto.model}, bouwjaar ${auto.bouwjaar}`"
           class="w-full h-48 object-cover rounded-md mb-4"
-        />
-        <img
-          v-else
-          src="/images/cars/default.jpg"
-          alt="Geen afbeelding beschikbaar"
-          class="w-full h-48 object-cover rounded-md mb-4"
+          loading="lazy"
         />
 
-        <p><strong>Kenteken:</strong> {{ auto.kenteken || 'Niet bekend' }}</p>
-        <p><strong>Brandstof:</strong> {{ auto.brandstof }}</p>
-        <p><strong>Transmissie:</strong> {{ auto.transmissie }}</p>
-        <p><strong>Kleur:</strong> {{ auto.kleur }}</p>
-        <p><strong>Zitplaatsen:</strong> {{ auto.zitplaatsen }}</p>
-        <p><strong>Beschikbaar:</strong> {{ auto.beschikbaar ? 'Ja' : 'Nee' }}</p>
-        <p><strong>Dagprijs:</strong> <span class="text-green-600 font-semibold">€{{ auto.dagprijs }}</span></p>
-        <p><strong>Beschrijving:</strong> {{ auto.beschrijving || 'Geen beschrijving' }}</p>
-        <button
-          class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out"
-        >
-          Auto Huren
-        </button>
-      </div>
-    </div>
+        <img
+          v-else
+          src="/images/cars/default.webp"
+          alt="Geen afbeelding beschikbaar voor deze auto"
+          class="w-full h-48 object-cover rounded-md mb-4"
+          loading="lazy"
+        />
+
+        <div class="space-y-1 text-sm text-gray-600">
+          <p><strong>Kenteken:</strong> {{ auto.kenteken || 'Niet bekend' }}</p>
+          <p><strong>Brandstof:</strong> {{ auto.brandstof }}</p>
+          <p><strong>Transmissie:</strong> {{ auto.transmissie }}</p>
+          <p><strong>Kleur:</strong> {{ auto.kleur }}</p>
+          <p><strong>Zitplaatsen:</strong> {{ auto.zitplaatsen }}</p>
+          <p><strong>Beschikbaar:</strong> {{ auto.beschikbaar ? 'Ja' : 'Nee' }}</p>
+          <p>
+            <strong>Dagprijs:</strong>
+            <span class="text-green-600 font-semibold">€{{ auto.dagprijs }}</span>
+          </p>
+          <p><strong>Beschrijving:</strong> {{ auto.beschrijving || 'Geen beschrijving' }}</p>
+        </div>
+      </article>
+    </section>
   </div>
 </template>
 
@@ -65,19 +74,16 @@ export default {
   data() {
     return {
       autos: [],
-      zoekterm: '',  // zoekterm voor filter
-      error: null,
+      zoekterm: '',
     };
   },
   computed: {
     gefilterdeAutos() {
-      if (!this.zoekterm) {
-        return this.autos;
-      }
-      const term = this.zoekterm.toLowerCase();
-      return this.autos.filter(auto =>
-        (auto.merk && auto.merk.toLowerCase().includes(term)) ||
-        (auto.model && auto.model.toLowerCase().includes(term))
+      const zoek = this.zoekterm.trim().toLowerCase();
+      if (!zoek) return this.autos;
+
+      return this.autos.filter((auto) =>
+        `${auto.merk} ${auto.model}`.toLowerCase().includes(zoek)
       );
     },
   },

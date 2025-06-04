@@ -5,7 +5,7 @@
       <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-8 px-4 sm:px-6 lg:px-8">
         <div class="flex items-center gap-4 sm:gap-6">
           <img
-            src="@/assets/StartMobil.png"
+            src="/images/StartMobil.webp"
             alt="StartMobil Logo"
             class="h-20 w-auto drop-shadow-lg"
           />

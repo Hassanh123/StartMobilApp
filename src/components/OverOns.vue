@@ -23,6 +23,6 @@
 
 <script>
 export default {
-  name: 'OverOnsPage',
+  name: 'OverOns',
 }
 </script>

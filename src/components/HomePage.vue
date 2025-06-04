@@ -14,15 +14,16 @@
       </p>
     </header>
 
-    <!-- Auto foto groot en zonder witruimte eronder -->
-    <div class="w-full max-w-4xl mb-8 overflow-hidden rounded-lg shadow-lg">
-      <img
-        src="@/assets/autos.png"
-        alt="Auto's"
-        class="w-full object-cover block"
-        style="height: 300px;" 
-      />
-    </div>
+<img
+  src="/images/autos.webp"
+  alt="Auto's"
+  width="1200"
+  height="300"
+  class="w-full object-cover block"
+  style="height: 300px;"
+  loading="lazy"
+/>
+
 
     <!-- Call to action blok onder de foto met achtergrond en info -->
     <div
