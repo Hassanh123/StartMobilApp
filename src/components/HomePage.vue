@@ -17,7 +17,7 @@
 
     <!-- Afbeelding banner -->
     <img
-      src="/images/autos.png"
+      src="/images/calltoaction.png"
       alt="Auto's te huur bij StartMobil"
       width="1200"
       height="300"
@@ -29,21 +29,21 @@
 
     <!-- Call to Action sectie -->
     <section
-      class="w-full max-w-3xl bg-indigo-700 rounded-lg shadow-md p-6 mt-6 text-white flex flex-col sm:flex-row sm:items-center gap-5"
+      class="w-full max-w-3xl bg-indigo-700 rounded-lg shadow-md p-6 mt-8 text-white flex flex-col sm:flex-row sm:items-center gap-6"
       aria-label="Call to action: Huur nu jouw auto"
     >
       <div class="flex-1 text-center sm:text-left">
         <h2 class="text-xl sm:text-2xl font-bold mb-2 leading-snug">
           Huur nu jouw auto snel en eenvoudig!
         </h2>
-        <p class="mb-3 text-indigo-200 max-w-lg mx-auto sm:mx-0 leading-relaxed">
+        <p class="mb-4 text-indigo-200 max-w-lg mx-auto sm:mx-0 leading-relaxed text-sm sm:text-base">
           Kies uit onze betrouwbare auto’s, scherpe prijzen en flexibele huurvoorwaarden. Perfect voor elke gelegenheid!
         </p>
       </div>
 
       <router-link
         :to="{ name: 'Login' }"
-        class="inline-block px-7 py-2.5 bg-white text-indigo-700 rounded-lg font-semibold text-center hover:bg-gray-100 transition focus:outline-none focus:ring-4 focus:ring-indigo-300"
+        class="inline-block px-8 py-3 bg-white text-indigo-700 rounded-lg font-semibold text-center text-base sm:text-lg shadow-md hover:bg-gray-100 transition focus:outline-none focus:ring-4 focus:ring-indigo-300"
         aria-label="Direct inloggen en auto huren"
       >
         Direct Inloggen & Huren
