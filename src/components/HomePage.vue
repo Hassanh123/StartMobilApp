@@ -17,7 +17,7 @@
 
     <!-- Afbeelding banner -->
     <img
-      src="/images/calltoaction.png"
+      src="/images/calltoaction.jpg"
       alt="Auto's te huur bij StartMobil"
       width="1200"
       height="300"

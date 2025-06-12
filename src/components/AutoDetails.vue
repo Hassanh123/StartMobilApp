@@ -1,9 +1,10 @@
 <template>
   <div class="bg-white max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8 rounded-lg shadow-sm scroll-auto">
-    <h1 class="text-3xl font-bold mb-8 text-center text-gray-800">Auto Details</h1>
+<h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Auto Details</h2>
+
 
     <!-- Zoekbalk -->
-    <div class="mb-6 flex justify-center">
+    <div class="mb-4 flex justify-center gap-4 flex-wrap">
       <input
         v-model="zoekterm"
         type="text"
@@ -11,6 +12,19 @@
         class="w-full max-w-xs sm:max-w-sm md:max-w-md px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition duration-150"
         aria-label="Zoek op merk of model"
       />
+
+      <!-- Sorteeropties -->
+      <label for="sorteren" class="sr-only">Sorteer op prijs</label>
+      <select
+        id="sorteren"
+        v-model="sortering"
+        class="px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition duration-150"
+        aria-label="Sorteer auto’s op prijs"
+      >
+        <option value="geen">Sorteer op</option>
+        <option value="laag-hoog">Prijs: laag naar hoog</option>
+        <option value="hoog-laag">Prijs: hoog naar laag</option>
+      </select>
     </div>
 
     <section v-if="gefilterdeAutos.length === 0" class="text-center text-gray-500" aria-label="Geen auto's">
@@ -78,7 +92,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
+import { useHead } from '@vueuse/head'
 
 export default {
   name: 'AutoDetails',
@@ -86,37 +101,78 @@ export default {
     return {
       autos: [],
       zoekterm: '',
+      sortering: 'geen',
       error: null,
-    };
+    }
   },
   computed: {
     gefilterdeAutos() {
-      const zoek = this.zoekterm.trim().toLowerCase();
-      if (!zoek) return this.autos;
+      const zoek = this.zoekterm.trim().toLowerCase()
+      let gefilterd = this.autos
 
-      return this.autos.filter((auto) =>
-        `${auto.merk} ${auto.model}`.toLowerCase().includes(zoek)
-      );
+      if (zoek) {
+        gefilterd = gefilterd.filter((auto) =>
+          `${auto.merk} ${auto.model}`.toLowerCase().includes(zoek)
+        )
+      }
+
+      if (this.sortering === 'laag-hoog') {
+        gefilterd = gefilterd.slice().sort((a, b) => a.dagprijs - b.dagprijs)
+      } else if (this.sortering === 'hoog-laag') {
+        gefilterd = gefilterd.slice().sort((a, b) => b.dagprijs - a.dagprijs)
+      }
+
+      return gefilterd
     },
   },
   mounted() {
-    this.haalAutosOp();
+    this.haalAutosOp()
   },
   methods: {
     async haalAutosOp() {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/cars');
-        this.autos = response.data;
+        const response = await axios.get('http://127.0.0.1:8000/api/cars')
+        this.autos = response.data
+        this.updateHead()  // head updaten nadat data geladen is
       } catch (error) {
-        this.error = 'Kon de autos niet ophalen.';
-        console.error(error);
+        this.error = 'Kon de autos niet ophalen.'
+        console.error(error)
       }
     },
     huurAuto(auto) {
-      if (!auto.beschikbaar) return;
-      // Hier kun je de logica plaatsen om een auto te huren, bijv. navigeren naar een bestelpagina of modaal openen
-      alert(`Je hebt gekozen om de ${auto.merk} ${auto.model} te huren.`);
+      if (!auto.beschikbaar) return
+      alert(`Je hebt gekozen om de ${auto.merk} ${auto.model} te huren.`)
+    },
+    updateHead() {
+      // JSON-LD data genereren voor alle auto's
+      const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": this.autos.map((auto, index) => ({
+          "@type": "ListItem",
+          "position": index + 1,
+          "url": window.location.href + `#auto-${auto.id}`,
+          "name": `${auto.merk} ${auto.model}`,
+          "image": auto.foto ? `${window.location.origin}/images/${auto.foto}` : `${window.location.origin}/images/cars/default.webp`,
+          "description": auto.beschrijving || 'Geen beschrijving',
+          "price": auto.dagprijs,
+          "availability": auto.beschikbaar ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+        })),
+      }
+
+      useHead({
+        title: 'Auto Details - Autoverhuur',
+        meta: [
+          { name: 'description', content: 'Bekijk en huur auto’s eenvoudig via onze autoverhuur app.' },
+        ],
+        script: [
+          {
+            type: 'application/ld+json',
+            children: JSON.stringify(jsonLd),
+          },
+        ],
+      })
     },
   },
-};
+}
 </script>
