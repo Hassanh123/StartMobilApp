@@ -1,21 +1,23 @@
 <template>
   <div id="app" class="min-h-screen bg-gray-100 flex flex-col">
-<!-- Header -->
 <header class="bg-indigo-900 shadow-lg py-6">
   <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-8 px-4 sm:px-6 lg:px-8">
     <a href="/" class="flex items-center gap-4 sm:gap-6 group">
       <img
         src="/images/StartMobil.webp"
         alt="StartMobil Logo"
+        :title="`Logo SmartMobil`"
         class="h-20 w-auto drop-shadow-lg transition-transform group-hover:scale-105"
       />
-      <h1 class="text-white text-3xl sm:text-4xl font-black tracking-wide select-none">
-        Start<span class="text-indigo-200">Mobil</span>
-      </h1>
+      <div>
+        <h1 class="text-white text-3xl sm:text-4xl font-black tracking-wide select-none">
+          Start<span class="text-indigo-200">Mobil</span>
+        </h1>
+        <p class="text-indigo-200 text-sm sm:text-base italic mt-1">
+          Smart, Simple & Sustainable Car Rental
+        </p>
+      </div>
     </a>
-    <p class="hidden sm:block text-indigo-200 text-sm sm:text-base italic">
-      Smart, simple & sustainable car rental
-    </p>
   </div>
 </header>
 

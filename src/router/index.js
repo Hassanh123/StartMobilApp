@@ -14,8 +14,8 @@ const routes = [
     component: HomePage,
   },
   {
-    name: 'AutoDetails', // Zorg ervoor dat de naam hier overeenkomt
-    path: '/AutoDetails',
+     name: 'AutoDetails',
+    path: '/autodetails',
     component: AutoDetailsPage,
   },
   {
